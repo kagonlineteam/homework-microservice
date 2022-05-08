@@ -73,6 +73,11 @@ func EditHomework(c *gin.Context) {
 		return
 	}
 
+	if homework.Reported != nil && !c.GetBool(middleware.TEACHER_ATTRIBUTE_GIN_NAME) {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "You can not edit a homework that has been reported"})
+		return
+	}
+
 	// Validate input
 	var input models.Homework
 	if err := c.ShouldBindJSON(&input); err != nil {
@@ -87,6 +92,12 @@ func EditHomework(c *gin.Context) {
 		input.Class = c.GetString(middleware.CLASS_ATTRIBUTE_GIN_NAME)
 		input.Grade = c.GetString(middleware.GRADE_ATTRIBUTE_GIN_NAME)
 	}
+
+	// This code is needed to reset reported to nil if wished
+	if input.Reported == nil && homework.Reported != nil {
+		models.DB.Model(&homework).Update("reported", nil)
+	}
+
 	input.Reported = nil // Do not allow custom reporting attributes
 
 	models.DB.Model(&homework).Updates(input)
