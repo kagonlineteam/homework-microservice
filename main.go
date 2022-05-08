@@ -20,8 +20,11 @@ func main() {
 	api := r.Group("/homework/v1")
 
 	api.GET("my", controller.GetOwnHomeworks)
+
+	api.GET("homeworks", controller.ListHomework)
 	api.POST("homeworks", controller.CreateHomework)
 	api.PUT("homeworks/:id", controller.EditHomework)
+
 	api.POST("report/:id", controller.ReportHomework)
 
 	r.Run()
