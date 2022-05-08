@@ -26,8 +26,9 @@ Authentication is done via a JWT token that is passend as the `Authentication: B
 The token will be checked against the public key provided via `HOMEWORK_JWT_PUB_KEY`.<br>
 The JWT needs the Claims:
 - `roles` (included `ROLE_TEACHER` or  `ROLE_ADMINISTRATOR`)
-- `stufe`
-- `klasse`
+- `stufe` (grade of student)
+- `klasse` (class char of student)
+- `consent` (permissions)
 - `sub` (needs to be `access_main`)
 
 ## Building
