@@ -24,6 +24,7 @@ func main() {
 	api.GET("homeworks", controller.ListHomework)
 	api.POST("homeworks", controller.CreateHomework)
 	api.PUT("homeworks/:id", controller.EditHomework)
+	api.DELETE("homeworks/:id", controller.DeleteHomework)
 
 	api.POST("report/:id", controller.ReportHomework)
 

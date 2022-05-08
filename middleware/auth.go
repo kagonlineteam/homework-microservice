@@ -15,6 +15,7 @@ const GRADE_ATTRIBUTE_GIN_NAME = "jwt_grade"
 const USERNAME_ATTRIBUTE_GIN_NAME = "jwt_username"
 const TEACHER_ATTRIBUTE_GIN_NAME = "jwt_teacher"
 const SHOWALL_ATTRIBUTE_GIN_NAME = "jwt_showall"
+const ALLOWDELETE_ATTRIBUTE_GIN_NAME = "jwt_allowdelete"
 
 var jwtPublicKey, _ = jwt.ParseRSAPublicKeyFromPEM([]byte(strings.Replace(os.Getenv("HOMEWORK_JWT_PUB_KEY"), `\n`, "\n", -1)))
 
@@ -64,6 +65,8 @@ func AuthMiddleware() gin.HandlerFunc {
 			for _, role := range claims["consent"].([]interface{}) {
 				if role.(string) == "homework-show-all" {
 					c.Set(SHOWALL_ATTRIBUTE_GIN_NAME, true)
+				} else if role.(string) == "homework-allow-delete" {
+					c.Set(ALLOWDELETE_ATTRIBUTE_GIN_NAME, true)
 				}
 			}
 		}

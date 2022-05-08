@@ -68,3 +68,21 @@ func ListHomework(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"message": "Hausaufgaben geladen.", "entities": homeworks})
 }
+
+func DeleteHomework(c *gin.Context) {
+	var homework models.Homework
+	if err := models.DB.Where("id = ?", c.Param("id")).First(&homework).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Homework not found"})
+		return
+	}
+
+	// Do only allow people with homework-delete to delete
+	if !c.GetBool(middleware.ALLOWDELETE_ATTRIBUTE_GIN_NAME) {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "You can not delete this homework"})
+		return
+	}
+
+	models.DB.Model(&homework).Delete(&homework)
+
+	c.JSON(http.StatusOK, gin.H{"message": "Successfully deleted"})
+}
