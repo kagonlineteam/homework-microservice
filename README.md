@@ -3,12 +3,15 @@ A small go microservice that enables students to share their homeworks.
 The frontend functionality is implemented as a part of [KAG-App](https://github.com/kagonlineteam/kag-app).
 
 ## Endpoints
-|Endpoint|Description| Method |
-|-|-|-|
-|/homework/v1/my| List homeworks for current user| GET |
-|/homework/v1/homeworks| Create homework | POST |
-|/homework/v1/homework/id | Edit homework with given id | PUT |
-|/homework/v1/report/id | Report homework with id | POST |
+|Endpoint|Description| Method | Permissions |
+|-|-|-|-|
+|/homework/v1/my| List homeworks for current user| GET | student |
+|/homework/v1/homeworks | List (filtered) homeworks | GET | teacher,admin, `homework-show-all`|
+|/homework/v1/homeworks| Create homework | POST | student,teacher,admin|
+|/homework/v1/homework/id | Edit homework with given id | PUT | student,teacher,admin (reported only teacher,admin)|
+|/homework/v1/homework/id | Edit homework with given id | PUT | `homework-allow-delete`|
+|/homework/v1/report/id | Report homework with id | POST | student,teacher,admin|
+
 
 ## Environment variables
 |Name|Description|
