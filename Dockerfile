@@ -26,8 +26,6 @@ COPY --from=build /homework-microservice ./homework-microservice
 
 RUN chmod +x ./homework-microservice
 
-USER nonroot:nonroot
-
 EXPOSE 8080
 
 ENTRYPOINT ["./homework-microservice"]
