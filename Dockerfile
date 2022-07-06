@@ -16,7 +16,7 @@ RUN go build -o /homework-microservice .
 ##
 ## Deploy
 ##
-FROM alpine:latest
+FROM debian:stable-slim
 
 RUN mkdir /app
 
