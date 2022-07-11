@@ -57,16 +57,20 @@ func AuthMiddleware() gin.HandlerFunc {
 			c.Set(GRADE_ATTRIBUTE_GIN_NAME, claims["stufe"])
 			c.Set(CLASS_ATTRIBUTE_GIN_NAME, claims["klasse"])
 			c.Set(USERNAME_ATTRIBUTE_GIN_NAME, claims["user"])
-			for _, role := range claims["roles"].([]interface{}) {
-				if role.(string) == "ROLE_TEACHER" || role.(string) == "ROLE_ADMINISTRATOR" {
-					c.Set(TEACHER_ATTRIBUTE_GIN_NAME, true)
+			if claims["roles"] != nil {
+				for _, role := range claims["roles"].([]interface{}) {
+					if role.(string) == "ROLE_TEACHER" || role.(string) == "ROLE_ADMINISTRATOR" {
+						c.Set(TEACHER_ATTRIBUTE_GIN_NAME, true)
+					}
 				}
 			}
-			for _, role := range claims["consent"].([]interface{}) {
-				if role.(string) == "homework-show-all" {
-					c.Set(SHOWALL_ATTRIBUTE_GIN_NAME, true)
-				} else if role.(string) == "homework-allow-delete" {
-					c.Set(ALLOWDELETE_ATTRIBUTE_GIN_NAME, true)
+			if claims["consent"] != nil {
+				for _, role := range claims["consent"].([]interface{}) {
+					if role.(string) == "homework-show-all" {
+						c.Set(SHOWALL_ATTRIBUTE_GIN_NAME, true)
+					} else if role.(string) == "homework-allow-delete" {
+						c.Set(ALLOWDELETE_ATTRIBUTE_GIN_NAME, true)
+					}
 				}
 			}
 		}
